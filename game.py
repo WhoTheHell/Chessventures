@@ -35,7 +35,7 @@ while 1:
             pygame.draw.rect(window, color, pygame.Rect(col, row + font_size, field_size, field_size))
 
     actor_width = 20
-    actor = figure.Figure('red', actor_width, actor_width)
+    actor = figure.TmpFigure('red', actor_width, actor_width)
     actor.rect.x = random.randrange(0,4) * field_size + field_size * 0.5 - actor_width / 2
     actor.rect.y = random.randrange(0,8) * field_size + field_size * 0.5 + font_size - actor_width / 2
 

@@ -1,6 +1,6 @@
 import pygame
 
-class Figure(pygame.sprite.Sprite):
+class TmpFigure(pygame.sprite.Sprite):
 
    def __init__(self, color, width, height):
       super().__init__()
