@@ -1,7 +1,7 @@
 import sys
 import random
 import pygame
-import figure
+import tmpfigure
 
 pygame.init()
 
