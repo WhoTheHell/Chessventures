@@ -14,12 +14,12 @@ pygame.display.set_caption("ChessVenture")
 
 #defining font attributes
 font_size = 90
-infobox_height = 12
 headline_font = pygame.font.SysFont("Segoe UI", font_size)
-infobox_font = pygame.font.SysFont("Segoe UI", infobox_height)
 headline = headline_font.render("ChessVenture", 1, (255, 0, 255), (255, 255, 255))
 font_size = headline.get_height()
-infobox = infobox_font.render("Infobox", 1, 'white')
+
+debugbox_height = 12
+debugbox_font = pygame.font.SysFont("Segoe UI", debugbox_height)
     
 #game assets
 board_height = window_surface.get_height() - font_size
@@ -51,10 +51,10 @@ while 1:
     ]
     labels = []
     for line in infobox_text:
-        labels.append(infobox_font.render(line, 1, 'white', 'black'))
+        labels.append(debugbox_font.render(line, 1, 'white', 'black'))
         
     for line_nr in range(len(labels)):
-        window_surface.blit(labels[line_nr], (headline.get_width(), line_nr * (infobox_height + 15)))
+        window_surface.blit(labels[line_nr], (headline.get_width(), line_nr * (debugbox_height + 15)))
     window_surface.blit(headline, (0, 0))
 
     #draw fields
