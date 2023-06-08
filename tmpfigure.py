@@ -14,8 +14,8 @@ class TmpFigure(pygame.sprite.Sprite):
 
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
-      self.row = 0
       self.col = 0
+      self.row = 0
 
    def update(self):
       self.update_pos()
@@ -42,8 +42,8 @@ class TmpFigure(pygame.sprite.Sprite):
       self.rect.y -= new_y_increment
 
    def move(self, _col, _row, offset, header_row):
-      #todo missing field_size
+      #TODO call host_figure on tile
       self.col = _col
       self.row = _row
-      self.target_location.x = self.col * offset + offset * 0.5 - self.image.get_width() / 2
-      self.target_location.y = self.row * offset + offset * 0.5 + header_row - self.image.get_width() / 2
+      self.target_location.x = (self.col + 0.5) * offset - self.image.get_width() / 2
+      self.target_location.y = (self.row + 0.5) * offset + header_row - self.image.get_width() / 2
