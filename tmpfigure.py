@@ -10,13 +10,10 @@ class TmpFigure(pygame.sprite.Sprite):
 
       self.image = pygame.image.load(os.path.join('res', 'strawberry.jpg'))
       self.image = pygame.transform.scale(self.image, (width, height))
-      # self.image = pygame.Surface([width, height])
       self.move_speed = 1 #pixel per frame
 
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
-      self.target_location.x = self.rect.x
-      self.target_location.y = self.rect.y
       self.row = 0
       self.col = 0
 

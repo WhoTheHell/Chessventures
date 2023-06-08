@@ -2,6 +2,8 @@ import sys
 import random
 import pygame
 import tmpfigure
+import tile
+import board
 
 pygame.init()
 
@@ -27,7 +29,6 @@ actor_width = 20
 actor = tmpfigure.TmpFigure(actor_width, actor_width)
 actor.rect.x = random.randrange(0,4) * field_size + field_size * 0.5 - actor_width / 2
 actor.rect.y = random.randrange(0,8) * field_size + field_size * 0.5 + font_size - actor_width / 2
-# actor.set_
 
 all_sprites_list = pygame.sprite.Group()
 all_sprites_list.add(actor)
@@ -53,8 +54,6 @@ while 1:
         
     for line_nr in range(len(labels)):
         window_surface.blit(labels[line_nr], (headline.get_width(), line_nr * (infobox_height + 15)))
-    # for label in labels:
-    #     window_surface.blit(label, (headline.get_width(), infobox_height))
     window_surface.blit(headline, (0, 0))
 
     #draw fields
