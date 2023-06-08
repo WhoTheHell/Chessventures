@@ -24,6 +24,7 @@ infobox = infobox_font.render("Infobox", 1, 'white')
 #game assets
 board_height = window_surface.get_height() - font_size
 field_size = min(board_height, window_surface.get_width()) / 8
+board = board.Board(field_size, 8, int(window_surface.get_width() / field_size))
 
 actor_width = 20
 actor = tmpfigure.TmpFigure(actor_width, actor_width)

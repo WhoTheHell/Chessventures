@@ -11,13 +11,13 @@ class Tile(pygame.sprite.Sprite):
    def __init__(self, width, height):
       super().__init__()
 
-      self.image = pygame.image.load(os.path.join('res', 'dirt_0.jpg'))
+      self.image = pygame.image.load(os.path.join('res', 'dirt_0.png'))
       self.image = pygame.transform.scale(self.image, (width, height))
 
       self.rect = self.image.get_rect()
       self.row = 0
       self.col = 0
-      self.type = DEFAULT
+      self.type = TileType.DEFAULT
 
    def update(self):
         self
