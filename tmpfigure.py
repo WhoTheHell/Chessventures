@@ -11,6 +11,11 @@ class TmpFigure(pygame.sprite.Sprite):
       self.move_speed = 2 #pixel per frame
 
       self.animation = []
+      self.frame_counter = 0
+      self.sprite_cols = 0
+      self.sprite_rows = 0
+      self.sprite_col = 0
+      self.sprite_row = 0
       self.set_image(os.path.join('res', 'strawberry.jpg'), (width, height))
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
@@ -19,6 +24,8 @@ class TmpFigure(pygame.sprite.Sprite):
 
    def update(self):
       self.update_pos()
+      if len(self.animation) != 0:
+         self.iterate_sprite()
 
    def update_pos(self):
       if(self.rect.x == self.target_location.x and self.rect.y == self.target_location.y):
@@ -54,15 +61,30 @@ class TmpFigure(pygame.sprite.Sprite):
       self.image = pygame.image.load(path)
       
       if cols_rows != None:
-         self.animation = [ [pygame.Surface] * cols_rows[1] for i in range(cols_rows[0]) ]
-         width = self.image.get_rect().width / cols_rows[0]
-         height = self.image.get_rect().height / cols_rows[1]
-         for col in range(cols_rows[0]):
-            for row in range(cols_rows[1]):
+         self.sprite_cols = cols_rows[0]
+         self.sprite_rows = cols_rows[1]
+         self.sprite_col = 0
+         self.sprite_row = 0
+         self.animation = [ [pygame.Surface] * self.sprite_rows for i in range(self.sprite_cols) ]
+         width = self.image.get_rect().width / self.sprite_cols
+         height = self.image.get_rect().height / self.sprite_rows
+         for col in range(self.sprite_cols):
+            for row in range(self.sprite_rows):
                x = col * width
                y = row * height
                cropping_region = (x, y, width, height)
                self.animation[col][row] = self.image.subsurface(cropping_region)
-         self.image = self.animation[0][0]
+         self.image = self.animation[self.sprite_col][self.sprite_row]
 
       self.image = pygame.transform.scale(self.image, size)
+
+   def iterate_sprite(self):
+      if self.frame_counter % 10 == 0:
+         self.sprite_col += 1
+         if self.sprite_col >= self.sprite_cols:
+            self.sprite_col = 0
+            self.sprite_row += 1
+            if self.sprite_row >= self.sprite_rows:
+               self.sprite_row = 0
+         self.image = self.animation[self.sprite_col][self.sprite_row]
+      self.frame_counter += 1
