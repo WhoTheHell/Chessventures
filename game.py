@@ -1,4 +1,5 @@
 import sys
+import os
 import random
 import pygame
 import tmpfigure
@@ -37,9 +38,15 @@ actor = tmpfigure.TmpFigure(actor_width, actor_width)
 actor.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
 actor.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
 
+opponent = tmpfigure.TmpFigure(actor_width, actor_width)
+opponent.set_image(os.path.join('res', 'default_sprite.png')) # 'default_sprite.png')
+opponent.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
+opponent.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
+
 all_sprites_list = pygame.sprite.Group()
 all_tiles_list = pygame.sprite.Group()
 all_sprites_list.add(actor)
+all_sprites_list.add(opponent)
 
 for i in range(board.cols):
     for j in range(board.rows):
@@ -107,7 +114,8 @@ while 1:
                 window_surface.blit(black_rect, (px_col, px_row + headline_font_size))
 
     if(frame_counter % 300 == 0):
-        actor.move(random.randrange(0,4),random.randrange(0,8), field_size, headline_font_size)
+        opponent.move(random.randrange(board.cols - 4, board.cols),random.randrange(0, board.rows), field_size, headline_font_size)
+        actor.move(random.randrange(0,4),random.randrange(0, board.rows), field_size, headline_font_size)
 
     #draw all
     all_sprites_list.update()

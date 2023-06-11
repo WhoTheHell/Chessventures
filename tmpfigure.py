@@ -8,10 +8,9 @@ class TmpFigure(pygame.sprite.Sprite):
    def __init__(self, width, height):
       super().__init__()
 
-      self.image = pygame.image.load(os.path.join('res', 'strawberry.jpg'))
-      self.image = pygame.transform.scale(self.image, (width, height))
       self.move_speed = 2 #pixel per frame
 
+      self.set_image(os.path.join('res', 'strawberry.jpg'), (width, height))
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
       self.col = 0
@@ -47,3 +46,10 @@ class TmpFigure(pygame.sprite.Sprite):
       self.row = _row
       self.target_location.x = (self.col + 0.5) * offset - self.image.get_width() / 2
       self.target_location.y = (self.row + 0.5) * offset + header_row - self.image.get_width() / 2
+
+   def set_image(self, path, size = None):
+      if size == None:
+         size = (self.rect.width, self.rect.height)
+      self.image = pygame.image.load(path)
+      self.image = pygame.transform.scale(self.image, size)
+      return
