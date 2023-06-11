@@ -39,7 +39,7 @@ actor.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
 actor.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
 
 opponent = tmpfigure.TmpFigure(actor_width, actor_width)
-opponent.set_image(os.path.join('res', 'default_sprite.png')) # 'default_sprite.png')
+opponent.set_image(os.path.join('res', 'default_sprite.png'), (actor_width, actor_width), (12, 4))
 opponent.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
 opponent.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
 

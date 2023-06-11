@@ -10,6 +10,7 @@ class TmpFigure(pygame.sprite.Sprite):
 
       self.move_speed = 2 #pixel per frame
 
+      self.animation = []
       self.set_image(os.path.join('res', 'strawberry.jpg'), (width, height))
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
@@ -47,9 +48,21 @@ class TmpFigure(pygame.sprite.Sprite):
       self.target_location.x = (self.col + 0.5) * offset - self.image.get_width() / 2
       self.target_location.y = (self.row + 0.5) * offset + header_row - self.image.get_width() / 2
 
-   def set_image(self, path, size = None):
+   def set_image(self, path, size = None, cols_rows = None):
       if size == None:
          size = (self.rect.width, self.rect.height)
       self.image = pygame.image.load(path)
+      
+      if cols_rows != None:
+         self.animation = [ [pygame.Surface] * cols_rows[1] for i in range(cols_rows[0]) ]
+         width = self.image.get_rect().width / cols_rows[0]
+         height = self.image.get_rect().height / cols_rows[1]
+         for col in range(cols_rows[0]):
+            for row in range(cols_rows[1]):
+               x = col * width
+               y = row * height
+               cropping_region = (x, y, width, height)
+               self.animation[col][row] = self.image.subsurface(cropping_region)
+         self.image = self.animation[0][0]
+
       self.image = pygame.transform.scale(self.image, size)
-      return
