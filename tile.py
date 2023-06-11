@@ -41,8 +41,9 @@ class Tile(pygame.sprite.Sprite):
             return
 
         ratio = euklidean_dist / self.move_speed
+        bow = 0.0045 * euklidean_dist
         new_x_increment = x_dist / ratio
-        new_y_increment = y_dist / ratio
+        new_y_increment = y_dist / ratio + bow
 
         self.rect.x -= new_x_increment
         self.rect.y -= new_y_increment
