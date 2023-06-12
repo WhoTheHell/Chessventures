@@ -38,7 +38,7 @@ actor = tmpfigure.TmpFigure(actor_width, actor_width)
 actor.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
 actor.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
 
-opponent = tmpfigure.TmpFigure(actor_width, actor_width)
+opponent = tmpfigure.TmpFigure(actor_width, actor_width, (0, headline_font_size), (field_size, field_size / 2))
 opponent.set_image(os.path.join('res', 'default_sprite.png'), (actor_width, actor_width), (12, 4))
 opponent.rect.x = (random.randrange(0,4) + 0.5) * field_size - actor_width / 2
 opponent.rect.y = (random.randrange(0,8) + 0.5) * field_size + headline_font_size - actor_width / 2
@@ -61,10 +61,14 @@ for i in range(board.cols):
 frame_counter = 0
 
 while 1:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE: sys.exit()
+        if event.type == pygame.MOUSEBUTTONUP:
+            if opponent.rect.collidepoint(event.pos):
+                opponent.on_click()
 
     headline = headline_font.render("ChessVenture ", 1, (255, 0, 255), (255, 255, 255))
 
@@ -118,7 +122,7 @@ while 1:
         actor.move(random.randrange(0,4),random.randrange(0, board.rows), field_size, headline_font_size)
 
     #draw all
-    all_sprites_list.update()
+    all_sprites_list.update(events)
     all_sprites_list.draw(window_surface)
     pygame.display.update()
 

@@ -5,7 +5,7 @@ import math
 
 class TmpFigure(pygame.sprite.Sprite):
 
-   def __init__(self, width, height):
+   def __init__(self, width, height, _static_offset = (0,0), _dynamic_offset = (0,0)):
       super().__init__()
 
       self.move_speed = 2 #pixel per frame
@@ -21,11 +21,17 @@ class TmpFigure(pygame.sprite.Sprite):
       self.target_location = Rect(self.rect)
       self.col = 0
       self.row = 0
+      self.static_offset = _static_offset
+      self.dynamic_offset = _dynamic_offset
 
-   def update(self):
+   def update(self, events):
       self.update_pos()
       if len(self.animation) != 0:
          self.iterate_sprite()
+      for event in events:
+         if event.type == pygame.MOUSEBUTTONUP:
+            if self.rect.collidepoint(event.pos):
+               self.on_click()
 
    def update_pos(self):
       if(self.rect.x == self.target_location.x and self.rect.y == self.target_location.y):
@@ -48,12 +54,12 @@ class TmpFigure(pygame.sprite.Sprite):
       self.rect.x -= new_x_increment
       self.rect.y -= new_y_increment
 
-   def move(self, _col, _row, offset, header_row):
+   def move(self, _col, _row, tile_width, header_row):
       #TODO call host_figure on tile
       self.col = _col
       self.row = _row
-      self.target_location.x = (self.col + 0.5) * offset - self.image.get_width() / 2
-      self.target_location.y = (self.row + 0.5) * offset + header_row - self.image.get_width() / 2
+      self.target_location.x = (self.col + 0.5) * tile_width - self.image.get_width() / 2
+      self.target_location.y = (self.row + 0.5) * tile_width + header_row - self.image.get_width() / 2
 
    def set_image(self, path, size = None, cols_rows = None):
       if size == None:
@@ -77,6 +83,9 @@ class TmpFigure(pygame.sprite.Sprite):
          self.image = self.animation[self.sprite_col][self.sprite_row]
 
       self.image = pygame.transform.scale(self.image, size)
+
+   def on_click(self):
+      self.move(5, 5, self.dynamic_offset[0], self.static_offset[1])
 
    def iterate_sprite(self):
       if self.frame_counter % 10 == 0:
