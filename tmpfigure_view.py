@@ -1,11 +1,11 @@
 import pygame
 from pygame.rect import Rect
-import os
 import math
+import transform
 
-class TmpFigure(pygame.sprite.Sprite):
+class TmpFigureView(pygame.sprite.Sprite):
 
-   def __init__(self, width, height, _static_offset = (0,0), _dynamic_offset = (0,0)):
+   def __init__(self, path, width = 50, height = 50):
       super().__init__()
 
       self.move_speed = 2 #pixel per frame
@@ -16,13 +16,11 @@ class TmpFigure(pygame.sprite.Sprite):
       self.sprite_rows = 0
       self.sprite_col = 0
       self.sprite_row = 0
-      self.set_image(os.path.join('res', 'strawberry.jpg'), (width, height))
+      self.set_image(path, (width, height))
       self.rect = self.image.get_rect()
       self.target_location = Rect(self.rect)
-      self.col = 0
-      self.row = 0
-      self.static_offset = _static_offset
-      self.dynamic_offset = _dynamic_offset
+      # self.static_offset = _static_offset
+      # self.raster_size = _raster_size
 
    def update(self, events):
       self.update_pos()
@@ -39,7 +37,6 @@ class TmpFigure(pygame.sprite.Sprite):
 
       x_dist = self.rect.x - self.target_location.x
       y_dist = self.rect.y - self.target_location.y
-      # slope = x_dist / y_dist
       euklidean_dist = math.sqrt(x_dist * x_dist + y_dist * y_dist)
 
       if(euklidean_dist <= self.move_speed):
@@ -54,14 +51,18 @@ class TmpFigure(pygame.sprite.Sprite):
       self.rect.x -= new_x_increment
       self.rect.y -= new_y_increment
 
-   def move(self, _col, _row, tile_width, header_row):
-      #TODO call host_figure on tile
-      self.col = _col
-      self.row = _row
-      self.target_location.x = (self.col + 0.5) * tile_width - self.image.get_width() / 2
-      self.target_location.y = (self.row + 0.5) * tile_width + header_row - self.image.get_width() / 2
+   def move(self, _col, _row):
+      pix_pos = transform.Transform.coord_to_pix(_col, _row, (self.image.get_width() / 2, self.image.get_height() / 2))
+      self.target_location.x = pix_pos[0]
+      self.target_location.y = pix_pos[1]
+      # self.target_location.x = self.static_offset[0] + (_col + 0.5) * self.raster_size[0] - self.image.get_width() / 2
+      # self.target_location.y = self.static_offset[1] + (_row + 0.5) * self.raster_size[1] - self.image.get_height() / 2
 
-   def set_image(self, path, size = None, cols_rows = None):
+   # def set_offsets(self, _static_offset, _raster_size):
+   #    self.static_offset = _static_offset
+   #    self.raster_size = _raster_size
+
+   def set_image(self, path, size = None, cols_rows = None): #assume sheet if cols_rows is given
       if size == None:
          size = (self.rect.width, self.rect.height)
       self.image = pygame.image.load(path)
@@ -85,7 +86,7 @@ class TmpFigure(pygame.sprite.Sprite):
       self.image = pygame.transform.scale(self.image, size)
 
    def on_click(self):
-      self.move(5, 5, self.dynamic_offset[0], self.static_offset[1])
+      self.move(5, 5)
 
    def iterate_sprite(self):
       if self.frame_counter % 10 == 0:
