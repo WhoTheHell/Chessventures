@@ -15,8 +15,11 @@ pygame.init()
 
 #defining size of game window
 clock = pygame.time.Clock()
-window_surface = pygame.display.set_mode((800,600)) 
+window_surface = pygame.display.set_mode((1280,720), pygame.SCALED) #, pygame.FULLSCREEN) 
 pygame.display.set_caption("ChessVenture")
+pygame.display.toggle_fullscreen()
+#pygame.display.set_icon()
+#pygame.display.get_window_size()
 
 #defining font attributes
 headline_font_size = 60
