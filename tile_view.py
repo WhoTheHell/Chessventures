@@ -30,7 +30,7 @@ class TileView(pygame.sprite.Sprite):
         y_dist = self.rect.y - self.target_location.y
         euklidean_dist = math.sqrt(x_dist * x_dist + y_dist * y_dist)
 
-        if(euklidean_dist <= self.move_speed): #FIXME why does this produce gaps and overlappings?
+        if(euklidean_dist <= self.move_speed):
             self.rect.x = self.target_location.x
             self.rect.y = self.target_location.y
             return
